@@ -1,3 +1,4 @@
+import ThemeProvider from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
@@ -17,7 +18,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
     >
       <body className="grid grid-rows-[auto_1fr_auto] gap-4 min-h-svh">
-        {children}
+        <ThemeProvider
+          disableTransitionOnChange
+          defaultTheme="system"
+          attribute="class"
+          enableSystem
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
