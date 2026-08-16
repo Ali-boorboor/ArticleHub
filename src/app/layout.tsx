@@ -16,7 +16,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={cn("h-full", "antialiased", "font-sans", roboto.variable)}
       lang="en"
     >
-      <body>{children}</body>
+      <body className="grid grid-rows-[auto_1fr_auto] gap-4 min-h-svh">
+        {children}
+      </body>
     </html>
   );
 }
