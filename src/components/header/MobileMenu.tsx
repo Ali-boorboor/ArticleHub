@@ -1,3 +1,5 @@
+"use client";
+
 import Buttons from "@/components/header/Buttons";
 import Menu from "@/components/header/Menu";
 import SearchInput from "@/components/header/SearchInput";
@@ -10,9 +12,8 @@ const MobileMenu = () => {
   return (
     <sheet.Sheet>
       <sheet.SheetTrigger
-        className="lg:hidden"
         render={
-          <Button variant="outline" size="icon-lg">
+          <Button variant="outline" size="icon-lg" className="lg:hidden">
             <MenuIcon />
           </Button>
         }
