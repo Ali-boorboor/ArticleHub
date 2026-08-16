@@ -2,6 +2,7 @@ import AdCard from "@/app/(Home)/_components/AdCard";
 import IntroSection from "@/app/(Home)/_components/IntroSection";
 import LatestArticlesSection from "@/app/(Home)/_components/LatestArticlesSection";
 import ServicesSection from "@/app/(Home)/_components/ServicesSection";
+import Footer from "@/components/footer";
 import Header from "@/components/header";
 
 export default function Home() {
@@ -18,6 +19,8 @@ export default function Home() {
 
         <AdCard />
       </main>
+
+      <Footer />
     </>
   );
 }
