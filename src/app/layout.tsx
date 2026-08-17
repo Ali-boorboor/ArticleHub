@@ -18,7 +18,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       lang="en"
     >
-      <body className="grid grid-rows-[auto_1fr_auto] gap-4 min-h-svh">
+      <body className="grid grid-rows-[auto_1fr_auto] gap-8 min-h-svh">
         <ThemeProvider
           disableTransitionOnChange
           defaultTheme="system"
