@@ -16,7 +16,7 @@ const IntroSection = () => {
           className="h-auto text-sm pr-3 [&>svg]:size-6 [&>svg]:scale-200"
         >
           <Dot className="stroke-primary" />
-          About <strong className="text-nowrap">ArticleHub</strong>
+          About ArticleHub
         </Badge>
 
         <h2 className="max-w-130 text-4xl md:text-5xl lg:text-6xl font-bold text-shadow-sm text-shadow-primary/30">

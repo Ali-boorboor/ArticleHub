@@ -1,8 +1,8 @@
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
 } from "@/components/ui/card";
 import services from "@/constants/services";
 
@@ -12,9 +12,8 @@ const ServicesSection = () => {
       <hgroup className="space-y-2">
         <h3 className="font-semibold text-xl sm:text-2xl">What We Do</h3>
         <p className="text-muted-foreground">
-          <strong className="text-nowrap">ArticleHub</strong> helps you stay
-          informed, inspired, and ahead by connecting you with ideas that
-          matter.
+          ArticleHub helps you stay informed, inspired, and ahead by connecting
+          you with ideas that matter.
         </p>
       </hgroup>
 

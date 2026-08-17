@@ -20,9 +20,9 @@ const IntroSection = () => {
         </h2>
 
         <p className="leading-8 text-muted-foreground">
-          ArticleHub is a modern publishing platform for writers to share their
-          ideas, insights, and stories - and for readers to discover knowledge
-          that matters.
+          <strong className="text-nowrap">ArticleHub</strong> is a modern
+          publishing platform for writers to share their ideas, insights, and
+          stories - and for readers to discover knowledge that matters.
         </p>
 
         <div className="flex gap-4 flex-wrap *:flex-1 lg:*:flex-none">
