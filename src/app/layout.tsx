@@ -15,6 +15,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       className={cn("h-full", "antialiased", "font-sans", roboto.variable)}
+      suppressHydrationWarning
       lang="en"
     >
       <body className="grid grid-rows-[auto_1fr_auto] gap-4 min-h-svh">
