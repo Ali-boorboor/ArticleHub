@@ -34,7 +34,7 @@ const LatestArticlesSection = () => {
               <card.Card className="mx-auto group">
                 <card.CardHeader>
                   <Image
-                    className="z-20 aspect-video border max-h-40 rounded-xl w-full object-cover brightness-80 dark:brightness-60 transition-all group-hover:brightness-95"
+                    className="z-20 aspect-video border max-h-40 rounded-xl w-full object-cover brightness-80 transition-all group-hover:brightness-95"
                     src="/test-img.jpg"
                     alt="article cover"
                     height={160}
