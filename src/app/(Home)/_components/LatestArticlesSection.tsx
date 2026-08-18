@@ -26,7 +26,7 @@ const LatestArticlesSection = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4">
         {Array.from({ length: 4 })
           .fill(0)
           .map((_, index) => (
