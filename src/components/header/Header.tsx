@@ -10,7 +10,7 @@ const LOGO_SRC = "/logo.png";
 
 const Header = () => {
   return (
-    <header className="sticky z-50 top-0 bg-sidebar border-b border-border flex justify-between items-center gap-4 px-4 py-1 shadow">
+    <header className="sticky z-50 top-0 bg-sidebar border-b flex justify-between items-center gap-4 px-4 py-1 shadow">
       <div className="flex-1">
         <Link className="flex gap-2 items-center w-fit" href="/">
           <Image
