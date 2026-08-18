@@ -1,9 +1,9 @@
+import Pagination from "@/app/articles/_components/articlesSection/Pagination";
 import Sidebar from "@/app/articles/_components/articlesSection/sidebar/Sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import * as card from "@/components/ui/card";
-import { Pagination } from "@/components/ui/pagination";
 import { Bookmark } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
