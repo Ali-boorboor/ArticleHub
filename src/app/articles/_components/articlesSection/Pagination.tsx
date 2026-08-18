@@ -1,3 +1,5 @@
+"use client";
+
 import * as pagination from "@/components/ui/pagination";
 
 const Pagination = () => {
