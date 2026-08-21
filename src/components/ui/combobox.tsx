@@ -98,7 +98,7 @@ function ComboboxContent({
     "side" | "align" | "sideOffset" | "alignOffset" | "anchor"
   >) {
   return (
-    <ComboboxPrimitive.Portal className="absolute">
+    <ComboboxPrimitive.Portal>
       <ComboboxPrimitive.Positioner
         side={side}
         sideOffset={sideOffset}

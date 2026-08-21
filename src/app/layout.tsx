@@ -18,15 +18,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       lang="en"
     >
-      <body className="grid grid-rows-[auto_1fr_auto] gap-8 min-h-svh">
-        <ThemeProvider
-          disableTransitionOnChange
-          defaultTheme="system"
-          attribute="class"
-          enableSystem
-        >
-          {children}
-        </ThemeProvider>
+      <body>
+        <div className="grid grid-rows-[auto_1fr_auto] gap-8 min-h-svh">
+          <ThemeProvider
+            disableTransitionOnChange
+            defaultTheme="system"
+            attribute="class"
+            enableSystem
+          >
+            {children}
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );
