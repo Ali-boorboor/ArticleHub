@@ -13,9 +13,9 @@ import {
   AlignRight,
   Bold,
   CodeXml,
-  Heading1,
-  Heading2,
   Heading3,
+  Heading4,
+  Heading5,
   ImageUp,
   Italic,
   LinkIcon,
@@ -56,9 +56,9 @@ const Tools = ({ editor }: ToolsProps) => {
         editor?.isActive("paragraph", { dir: "ltr" }) ||
         editor?.isActive("heading", { dir: "ltr" }) ||
         false,
-      isH1: editor?.isActive("heading", { level: 1 }) ?? false,
-      isH2: editor?.isActive("heading", { level: 2 }) ?? false,
       isH3: editor?.isActive("heading", { level: 3 }) ?? false,
+      isH4: editor?.isActive("heading", { level: 4 }) ?? false,
+      isH5: editor?.isActive("heading", { level: 5 }) ?? false,
       isBulletList: editor?.isActive("bulletList") ?? false,
       isOrderedList: editor?.isActive("orderedList") ?? false,
       isCodeBlock: editor?.isActive("codeBlock") ?? false,
@@ -199,26 +199,6 @@ const Tools = ({ editor }: ToolsProps) => {
 
       <div className="flex flex-wrap gap-2 items-center justify-center flex-1 lg:flex-none lg:justify-normal">
         <Toggle
-          onPressedChange={() => editor.commands.toggleHeading({ level: 1 })}
-          pressed={editorState?.isH1 ?? false}
-          aria-label="Toggle Heading1"
-          variant="primary"
-          size="lg"
-        >
-          <Heading1 aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleHeading({ level: 2 })}
-          pressed={editorState?.isH2 ?? false}
-          aria-label="Toggle Heading2"
-          variant="primary"
-          size="lg"
-        >
-          <Heading2 aria-hidden />
-        </Toggle>
-
-        <Toggle
           onPressedChange={() => editor.commands.toggleHeading({ level: 3 })}
           pressed={editorState?.isH3 ?? false}
           aria-label="Toggle Heading3"
@@ -226,6 +206,26 @@ const Tools = ({ editor }: ToolsProps) => {
           size="lg"
         >
           <Heading3 aria-hidden />
+        </Toggle>
+
+        <Toggle
+          onPressedChange={() => editor.commands.toggleHeading({ level: 4 })}
+          pressed={editorState?.isH4 ?? false}
+          aria-label="Toggle Heading4"
+          variant="primary"
+          size="lg"
+        >
+          <Heading4 aria-hidden />
+        </Toggle>
+
+        <Toggle
+          onPressedChange={() => editor.commands.toggleHeading({ level: 5 })}
+          pressed={editorState?.isH5 ?? false}
+          aria-label="Toggle Heading5"
+          variant="primary"
+          size="lg"
+        >
+          <Heading5 aria-hidden />
         </Toggle>
 
         <Toggle

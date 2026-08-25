@@ -19,7 +19,7 @@ const Editor = () => {
         heading: {
           HTMLAttributes: {
             class:
-              "md:[h1]:text-4xl [h1]:text-5xl md:[h2]:text-2xl [h2]:text-3xl md:[h3]:text-lg [h3]:text-xl [h1]:font-bold [h2]:font-semibold [h3]:font-medium",
+              "md:[h3]:text-3xl [h3]:text-2xl md:[h4]:text-2xl [h4]:text-xl md:[h5]:text-xl [h5]:text-lg font-medium",
           },
         },
         link: {
@@ -28,18 +28,20 @@ const Editor = () => {
           HTMLAttributes: {
             class: cn(
               buttonVariants({ variant: "link" }),
-              "cursor-pointer px-0",
+              "cursor-pointer px-0 text-sidebar-primary",
             ),
+            target: "_blank",
+            rel: "noopener noreferrer",
           },
         },
         bulletList: {
           HTMLAttributes: {
-            class: "list-disc px-6",
+            class: "list-disc px-4 marker:text-sidebar-primary",
           },
         },
         orderedList: {
           HTMLAttributes: {
-            class: "list-decimal px-6",
+            class: "list-decimal px-4 marker:text-sidebar-primary",
           },
         },
         codeBlock: false,
@@ -51,7 +53,7 @@ const Editor = () => {
       Image.configure({
         HTMLAttributes: {
           class:
-            "mx-auto my-4 w-full max-h-100 object-cover aspect-video border shadow rounded-lg",
+            "mx-auto w-full max-h-100 object-cover aspect-video border shadow rounded-lg",
         },
       }),
       CodeBlock.configure({
@@ -59,7 +61,8 @@ const Editor = () => {
         enableTabIndentation: true,
         HTMLAttributes: {
           class:
-            "mx-auto my-4 bg-secondary text-secondary-foreground px-2 py-1 rounded-lg border shadow max-w-full max-h-96 [&_code]:text-nowrap overflow-auto scrollbar-thin scrollbar-track-sidebar-accent scrollbar-thumb-sidebar-primary scroll-fade-t",
+            "mx-auto bg-secondary text-secondary-foreground px-2 py-1 rounded-lg border shadow max-w-full max-h-96 [&_code]:text-nowrap overflow-auto scrollbar-thin scrollbar-track-sidebar-accent scrollbar-thumb-sidebar-primary scroll-fade-t",
+          dir: "ltr",
         },
       }),
       Subscript,
@@ -72,7 +75,7 @@ const Editor = () => {
     editorProps: {
       attributes: {
         class:
-          "container min-h-50 h-[70svh] overflow-y-auto scrollbar-thin scrollbar-track-sidebar-accent scrollbar-thumb-sidebar-primary scroll-fade leading-8 rounded-lg border border-input shadow bg-sidebar p-2 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm",
+          "container min-h-50 h-[70svh] overflow-y-auto scrollbar-thin scrollbar-track-sidebar-accent scrollbar-thumb-sidebar-primary scroll-fade leading-8 space-y-4 rounded-lg border border-input shadow bg-sidebar p-2 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm",
       },
     },
   });
