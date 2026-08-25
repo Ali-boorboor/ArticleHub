@@ -16,7 +16,7 @@ const Menu = ({ navClassname, menuClassname, itemClassname }: MenuProps) => {
         {headerLinks.map((headerLink) => (
           <navigation.NavigationMenuItem
             className={cn(
-              "text-nowrap font-semibold relative group transform-gpu will-change-transform hover:text-primary after:absolute after:w-full after:h-0.5 after:top-12 xl:after:top-13 after:mx-auto after:transition-all hover:after:bg-primary",
+              "text-nowrap font-semibold relative group transform-gpu will-change-transform hover:text-sidebar-primary after:absolute after:w-full after:h-0.5 after:top-12 xl:after:top-13 after:mx-auto after:transition-all hover:after:bg-sidebar-primary",
               itemClassname,
             )}
             key={headerLink.id}
