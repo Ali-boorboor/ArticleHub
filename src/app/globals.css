@@ -130,6 +130,6 @@
     cursor: pointer;
   }
   html {
-    @apply font-sans font-persian;
+    @apply font-sans;
   }
 }
