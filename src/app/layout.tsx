@@ -2,9 +2,16 @@ import ThemeProvider from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import localfont from "next/font/local";
 import "./globals.css";
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
+
+const persianFont = localfont({
+  src: "../fonts/persian-font.ttf",
+  variable: "--font-persian",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +21,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      className={cn("h-full", "antialiased", "font-sans", roboto.variable)}
+      className={cn(
+        roboto.variable,
+        persianFont.variable,
+        "h-full",
+        "antialiased",
+        "font-sans",
+      )}
       suppressHydrationWarning
       lang="en"
     >
