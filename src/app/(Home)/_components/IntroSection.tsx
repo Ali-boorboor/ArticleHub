@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Flame, MoveRight, Pencil } from "lucide-react";
 import Image from "next/image";
 
-const IMAGE_SRC = "/home-intro-img.png";
+const IMAGE_SRC = "/pages-image/home-intro-img.png";
 
 const IntroSection = () => {
   return (

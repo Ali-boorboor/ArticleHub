@@ -36,15 +36,15 @@ const Socials = () => {
           aria-label="github link"
           target="_blank"
         >
-          <svg className="size-6">
-            <use href="/github.svg" />
+          <svg className="size-6 fill-sidebar-foreground">
+            <use href="/footer-icons/github.svg" />
           </svg>
         </Link>
 
         <Link
           className={cn(
             buttonVariants({ variant: "outline", size: "icon-lg" }),
-            "font-bold text-base text-[#0e76a8] hover:text-[#0e76a8]",
+            "font-bold text-base text-sidebar-primary/80 hover:text-sidebar-primary",
           )}
           aria-label="github link"
           href="https://www.linkedin.com/in/ali-boorboor"

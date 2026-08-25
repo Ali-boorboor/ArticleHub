@@ -5,7 +5,7 @@ import { Dot } from "lucide-react";
 import Image from "next/image";
 import { Fragment } from "react/jsx-runtime";
 
-const IMAGE_SRC = "/about-intro-img.png";
+const IMAGE_SRC = "/pages-image/about-intro-img.png";
 
 const IntroSection = () => {
   return (
