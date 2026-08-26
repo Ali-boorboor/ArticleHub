@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/card";
 import services from "@/constants/services";
 
-type ServiceCardProps = (typeof services)[number];
+type ServiceCardProps = Omit<(typeof services)[number], "id">;
 
 const ServiceCard = ({ icon, title, description }: ServiceCardProps) => {
   return (
