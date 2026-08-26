@@ -1,3 +1,5 @@
+import ToolbarToggle from "@/app/write/_components/editor/ToolbarToggle";
+import useEditorStates from "@/app/write/_hooks/useEditorState";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,258 +7,156 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Toggle } from "@/components/ui/toggle";
-import { type Editor, useEditorState } from "@tiptap/react";
-import {
-  AlignCenter,
-  AlignLeft,
-  AlignRight,
-  Bold,
-  CodeXml,
-  Heading3,
-  Heading4,
-  Heading5,
-  ImageUp,
-  Italic,
-  LinkIcon,
-  List,
-  ListOrdered,
-  Paperclip,
-  PilcrowLeft,
-  PilcrowRight,
-  Strikethrough,
-  Subscript as SubscriptIcon,
-  Superscript as SuperscriptIcon,
-  Underline,
-} from "lucide-react";
+import { type Editor } from "@tiptap/react";
+import * as Icon from "lucide-react";
 
 interface ToolsProps {
   editor: Editor;
 }
 
 const Tools = ({ editor }: ToolsProps) => {
-  const editorState = useEditorState({
-    editor,
-    selector: ({ editor }) => ({
-      isBold: editor?.isActive("bold") ?? false,
-      isItalic: editor?.isActive("italic") ?? false,
-      isUnderline: editor?.isActive("underline") ?? false,
-      isStrike: editor?.isActive("strike") ?? false,
-      isSubscript: editor?.isActive("subscript") ?? false,
-      isSuperscript: editor?.isActive("superscript") ?? false,
-      isLink: editor?.isActive("link") ?? false,
-      isAlignLeft: editor?.isActive({ textAlign: "left" }) ?? false,
-      isAlignCenter: editor?.isActive({ textAlign: "center" }) ?? false,
-      isAlignRight: editor?.isActive({ textAlign: "right" }) ?? false,
-      isDirectionRight:
-        editor?.isActive("paragraph", { dir: "rtl" }) ||
-        editor?.isActive("heading", { dir: "rtl" }) ||
-        false,
-      isDirectionLeft:
-        editor?.isActive("paragraph", { dir: "ltr" }) ||
-        editor?.isActive("heading", { dir: "ltr" }) ||
-        false,
-      isH3: editor?.isActive("heading", { level: 3 }) ?? false,
-      isH4: editor?.isActive("heading", { level: 4 }) ?? false,
-      isH5: editor?.isActive("heading", { level: 5 }) ?? false,
-      isBulletList: editor?.isActive("bulletList") ?? false,
-      isOrderedList: editor?.isActive("orderedList") ?? false,
-      isCodeBlock: editor?.isActive("codeBlock") ?? false,
-    }),
-  });
+  const editorState = useEditorStates(editor);
+
+  const textFormattingTools = [
+    {
+      icon: Icon.Bold,
+      label: "Toggle Bold",
+      pressed: editorState.isBold,
+      onPressedChange: () => editor.commands.toggleBold(),
+    },
+    {
+      icon: Icon.Italic,
+      label: "Toggle Italic",
+      pressed: editorState.isItalic,
+      onPressedChange: () => editor.commands.toggleItalic(),
+    },
+    {
+      icon: Icon.Underline,
+      label: "Toggle Underline",
+      pressed: editorState.isUnderline,
+      onPressedChange: () => editor.commands.toggleUnderline(),
+    },
+    {
+      icon: Icon.Strikethrough,
+      label: "Toggle Strikethrough",
+      pressed: editorState.isStrike,
+      onPressedChange: () => editor.commands.toggleStrike(),
+    },
+    {
+      icon: Icon.SubscriptIcon,
+      label: "Toggle Subscript",
+      pressed: editorState.isSubscript,
+      onPressedChange: () => editor.commands.toggleSubscript(),
+    },
+    {
+      icon: Icon.SuperscriptIcon,
+      label: "Toggle Superscript",
+      pressed: editorState.isSuperscript,
+      onPressedChange: () => editor.commands.toggleSuperscript(),
+    },
+    {
+      icon: Icon.LinkIcon,
+      label: "Add Link",
+      pressed: editorState.isLink,
+      onPressedChange: () =>
+        editor.commands.setLink({
+          rel: "noopener noreferrer",
+          target: "_blank",
+          href: "#",
+        }),
+    },
+  ];
+
+  const alignmentTools = [
+    {
+      icon: Icon.AlignLeft,
+      label: "Align Left",
+      pressed: editorState.isAlignLeft,
+      onPressedChange: () => editor.commands.setTextAlign("left"),
+    },
+    {
+      icon: Icon.AlignCenter,
+      label: "Align Center",
+      pressed: editorState.isAlignCenter,
+      onPressedChange: () => editor.commands.setTextAlign("center"),
+    },
+    {
+      icon: Icon.AlignRight,
+      label: "Align Right",
+      pressed: editorState.isAlignRight,
+      onPressedChange: () => editor.commands.setTextAlign("right"),
+    },
+    {
+      icon: Icon.PilcrowLeft,
+      label: "Direction Right To Left",
+      pressed: editorState.isDirectionRight,
+      onPressedChange: () => editor.commands.setTextDirection("rtl"),
+    },
+    {
+      icon: Icon.PilcrowRight,
+      label: "Direction Left To Right",
+      pressed: editorState.isDirectionLeft,
+      onPressedChange: () => editor.commands.setTextDirection("ltr"),
+    },
+  ];
+
+  const blockTools = [
+    {
+      icon: Icon.Heading3,
+      label: "Heading 3",
+      pressed: editorState.isH3,
+      onPressedChange: () => editor.commands.toggleHeading({ level: 3 }),
+    },
+    {
+      icon: Icon.Heading4,
+      label: "Heading 4",
+      pressed: editorState.isH4,
+      onPressedChange: () => editor.commands.toggleHeading({ level: 4 }),
+    },
+    {
+      icon: Icon.Heading5,
+      label: "Heading 5",
+      pressed: editorState.isH5,
+      onPressedChange: () => editor.commands.toggleHeading({ level: 5 }),
+    },
+    {
+      icon: Icon.List,
+      label: "Bullet List",
+      pressed: editorState.isBulletList,
+      onPressedChange: () => editor.commands.toggleBulletList(),
+    },
+    {
+      icon: Icon.ListOrdered,
+      label: "Ordered List",
+      pressed: editorState.isOrderedList,
+      onPressedChange: () => editor.commands.toggleOrderedList(),
+    },
+    {
+      icon: Icon.CodeXml,
+      label: "Code Block",
+      pressed: editorState.isCodeBlock,
+      onPressedChange: () => editor.commands.toggleCodeBlock(),
+    },
+  ];
 
   return (
     <header className="flex flex-wrap gap-4 items-center justify-between bg-sidebar p-2 rounded-lg border shadow">
       <div className="flex flex-wrap gap-2 items-center justify-center flex-1 lg:flex-none lg:justify-normal">
-        <Toggle
-          onPressedChange={() => editor.commands.toggleBold()}
-          pressed={editorState?.isBold ?? false}
-          aria-label="Toggle Bold"
-          variant="primary"
-          size="lg"
-        >
-          <Bold aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleItalic()}
-          pressed={editorState?.isItalic ?? false}
-          aria-label="Toggle Italic"
-          variant="primary"
-          size="lg"
-        >
-          <Italic aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleUnderline()}
-          pressed={editorState?.isUnderline ?? false}
-          aria-label="Toggle Underline"
-          variant="primary"
-          size="lg"
-        >
-          <Underline aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleStrike()}
-          pressed={editorState?.isStrike ?? false}
-          aria-label="Toggle Strikethrough"
-          variant="primary"
-          size="lg"
-        >
-          <Strikethrough aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleSubscript()}
-          pressed={editorState?.isSubscript ?? false}
-          aria-label="Toggle Subscript"
-          variant="primary"
-          size="lg"
-        >
-          <SubscriptIcon aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleSuperscript()}
-          pressed={editorState?.isSuperscript ?? false}
-          aria-label="Toggle Superscript"
-          variant="primary"
-          size="lg"
-        >
-          <SuperscriptIcon aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => {
-            editor.commands.setLink({
-              rel: "noopener noreferrer",
-              target: "_blank",
-              href: "#",
-            });
-          }}
-          pressed={editorState?.isLink ?? false}
-          aria-label="Add Link"
-          variant="primary"
-          size="lg"
-        >
-          <LinkIcon aria-hidden />
-        </Toggle>
+        {textFormattingTools.map((tool) => (
+          <ToolbarToggle key={tool.label} {...tool} />
+        ))}
       </div>
 
       <div className="flex flex-wrap gap-2 items-center justify-center flex-1 lg:flex-none lg:justify-normal">
-        <Toggle
-          onPressedChange={() => editor.commands.setTextAlign("left")}
-          pressed={editorState?.isAlignLeft ?? false}
-          aria-label="Toggle Align Left"
-          variant="primary"
-          size="lg"
-        >
-          <AlignLeft aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.setTextAlign("center")}
-          pressed={editorState?.isAlignCenter ?? false}
-          aria-label="Toggle Align Center"
-          variant="primary"
-          size="lg"
-        >
-          <AlignCenter aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.setTextAlign("right")}
-          pressed={editorState?.isAlignRight ?? false}
-          aria-label="Toggle Align Right"
-          variant="primary"
-          size="lg"
-        >
-          <AlignRight aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.setTextDirection("rtl")}
-          pressed={editorState?.isDirectionRight ?? false}
-          aria-label="Toggle Direction Right To Left"
-          variant="primary"
-          size="lg"
-        >
-          <PilcrowLeft aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.setTextDirection("ltr")}
-          pressed={editorState?.isDirectionLeft ?? false}
-          aria-label="Toggle Direction Left To Right"
-          variant="primary"
-          size="lg"
-        >
-          <PilcrowRight aria-hidden />
-        </Toggle>
+        {alignmentTools.map((tool) => (
+          <ToolbarToggle key={tool.label} {...tool} />
+        ))}
       </div>
 
       <div className="flex flex-wrap gap-2 items-center justify-center flex-1 lg:flex-none lg:justify-normal">
-        <Toggle
-          onPressedChange={() => editor.commands.toggleHeading({ level: 3 })}
-          pressed={editorState?.isH3 ?? false}
-          aria-label="Toggle Heading3"
-          variant="primary"
-          size="lg"
-        >
-          <Heading3 aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleHeading({ level: 4 })}
-          pressed={editorState?.isH4 ?? false}
-          aria-label="Toggle Heading4"
-          variant="primary"
-          size="lg"
-        >
-          <Heading4 aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleHeading({ level: 5 })}
-          pressed={editorState?.isH5 ?? false}
-          aria-label="Toggle Heading5"
-          variant="primary"
-          size="lg"
-        >
-          <Heading5 aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleBulletList()}
-          pressed={editorState?.isBulletList ?? false}
-          aria-label="Toggle List"
-          variant="primary"
-          size="lg"
-        >
-          <List aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleOrderedList()}
-          pressed={editorState?.isOrderedList ?? false}
-          aria-label="Toggle Ordered List"
-          variant="primary"
-          size="lg"
-        >
-          <ListOrdered aria-hidden />
-        </Toggle>
-
-        <Toggle
-          onPressedChange={() => editor.commands.toggleCodeBlock()}
-          pressed={editorState?.isCodeBlock ?? false}
-          aria-label="Toggle Code Block"
-          variant="primary"
-          size="lg"
-        >
-          <CodeXml aria-hidden />
-        </Toggle>
+        {blockTools.map((tool) => (
+          <ToolbarToggle key={tool.label} {...tool} />
+        ))}
 
         <DropdownMenu>
           <DropdownMenuTrigger
@@ -266,7 +166,7 @@ const Tools = ({ editor }: ToolsProps) => {
                 variant="outline"
                 size="icon-lg"
               >
-                <Paperclip aria-hidden />
+                <Icon.Paperclip aria-hidden />
               </Button>
             }
           />
@@ -280,7 +180,7 @@ const Tools = ({ editor }: ToolsProps) => {
               }}
               aria-label="Upload Image"
             >
-              <ImageUp aria-hidden />
+              <Icon.ImageUp aria-hidden />
               Upload Image
             </DropdownMenuItem>
           </DropdownMenuContent>
