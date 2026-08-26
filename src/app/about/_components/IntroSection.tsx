@@ -1,9 +1,8 @@
+import AboutCard from "@/app/about/_components/AboutCard";
 import aboutCards from "@/app/about/_constants/aboutCards";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Dot } from "lucide-react";
 import Image from "next/image";
-import { Fragment } from "react/jsx-runtime";
 
 const IMAGE_SRC = "/pages-image/about-intro-img.png";
 
@@ -37,22 +36,7 @@ const IntroSection = () => {
 
         <div className="flex flex-wrap justify-center items-center gap-6">
           {aboutCards.map((card) => (
-            <Fragment key={card.id}>
-              <div className="flex items-center gap-4">
-                <span className="size-6 text-primary drop-shadow-xs drop-shadow-primary">
-                  {card.icon}
-                </span>
-                <div>
-                  <h3 className="font-medium">{card.title}</h3>
-                  <p className="text-muted-foreground">{card.text}</p>
-                </div>
-              </div>
-
-              <Separator
-                className="bg-foreground/30 hidden xl:block last:hidden"
-                orientation="vertical"
-              />
-            </Fragment>
+            <AboutCard key={card.id} {...card} />
           ))}
         </div>
       </hgroup>
