@@ -1,4 +1,5 @@
 import ThemeProvider from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             enableSystem
           >
             {children}
+            <Toaster timeout={3000} />
           </ThemeProvider>
         </div>
       </body>

@@ -2,11 +2,20 @@
 
 import Buttons from "@/app/write/_components/editor/Buttons";
 import Tools from "@/app/write/_components/editor/Tools";
+import useDraft from "@/app/write/_hooks/useDraft";
 import useEditor from "@/app/write/_hooks/useEditor";
 import { EditorContent } from "@tiptap/react";
+import { useEffect } from "react";
 
 const Editor = () => {
   const editor = useEditor();
+  const { loadDraft } = useDraft(editor);
+
+  useEffect(() => {
+    if (!editor) return;
+
+    loadDraft();
+  }, [editor, loadDraft]);
 
   if (!editor) return null;
 

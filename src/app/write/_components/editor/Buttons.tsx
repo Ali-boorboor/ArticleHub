@@ -1,3 +1,4 @@
+import useDraft from "@/app/write/_hooks/useDraft";
 import { Button } from "@/components/ui/button";
 import { type Editor } from "@tiptap/react";
 
@@ -6,6 +7,8 @@ interface ButtonsProps {
 }
 
 const Buttons = ({ editor }: ButtonsProps) => {
+  const { saveDraft } = useDraft(editor);
+
   return (
     <footer className="flex flex-wrap gap-4 items-center justify-between bg-sidebar p-2 rounded-lg border shadow">
       <Button
@@ -17,7 +20,7 @@ const Buttons = ({ editor }: ButtonsProps) => {
         Save
       </Button>
 
-      <Button className="flex-1 max-w-96" variant="outline">
+      <Button onClick={saveDraft} className="flex-1 max-w-96" variant="outline">
         Draft
       </Button>
     </footer>
