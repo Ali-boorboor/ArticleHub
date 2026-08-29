@@ -59,7 +59,7 @@ const Tools = ({ editor }: ToolsProps) => {
       label: "Add Link",
       pressed: editorState.isLink,
       onPressedChange: () =>
-        editor.commands.setLink({
+        editor.commands.toggleLink({
           rel: "noopener noreferrer",
           target: "_blank",
           href: "#",
