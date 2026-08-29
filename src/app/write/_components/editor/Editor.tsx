@@ -20,13 +20,13 @@ const Editor = () => {
   if (!editor) return null;
 
   return (
-    <section className="grid gap-2 min-w-0">
+    <form className="grid gap-2 min-w-0">
       <Tools editor={editor} />
 
       <EditorContent className="min-w-0 w-full max-w-full" editor={editor} />
 
       <Buttons editor={editor} />
-    </section>
+    </form>
   );
 };
 

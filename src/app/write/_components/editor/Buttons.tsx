@@ -16,12 +16,18 @@ const Buttons = ({ editor }: ButtonsProps) => {
           console.log(editor.getHTML());
         }}
         className="flex-1 max-w-96"
+        type="submit"
       >
-        Save
+        Publish
       </Button>
 
-      <Button onClick={saveDraft} className="flex-1 max-w-96" variant="outline">
-        Draft
+      <Button
+        onClick={saveDraft}
+        className="flex-1 max-w-96"
+        variant="outline"
+        type="button"
+      >
+        Save Draft
       </Button>
     </footer>
   );
