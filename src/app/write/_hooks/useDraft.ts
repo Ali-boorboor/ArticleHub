@@ -18,13 +18,21 @@ const useDraft = (editor: Editor | null) => {
       savedAt: new Date().toISOString(),
     };
 
-    window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+    try {
+      window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
 
-    toast.add({
-      type: "success",
-      title: "Draft saved",
-      description: "Your article draft has been saved locally.",
-    });
+      toast.add({
+        type: "success",
+        title: "Draft saved",
+        description: "Your article draft has been saved locally.",
+      });
+    } catch {
+      toast.add({
+        type: "error",
+        title: "Failed to save draft",
+        description: "Your article draft could not be saved locally.",
+      });
+    }
   }, [editor]);
 
   const loadDraft = useCallback(() => {
