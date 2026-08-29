@@ -67,7 +67,6 @@ const useTipTapEditor = () => {
     content: "<p>Write your Article here!</p>",
     immediatelyRender: false,
     textDirection: "ltr",
-    autofocus: true,
     editorProps: {
       attributes: {
         class:
