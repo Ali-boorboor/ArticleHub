@@ -1,32 +1,26 @@
-"use client";
-
-import Buttons from "@/app/write/_components/editor/Buttons";
 import Tools from "@/app/write/_components/editor/Tools";
-import useDraft from "@/app/write/_hooks/useDraft";
-import useEditor from "@/app/write/_hooks/useEditor";
-import { EditorContent } from "@tiptap/react";
-import { useEffect } from "react";
+import { EditorContent, type Editor as EditorType } from "@tiptap/react";
+import { Field, FieldProps } from "formik";
 
-const Editor = () => {
-  const editor = useEditor();
-  const { loadDraft } = useDraft(editor);
+interface EditorProps {
+  editor: EditorType;
+}
 
-  useEffect(() => {
-    if (!editor) return;
-
-    loadDraft();
-  }, [editor, loadDraft]);
-
-  if (!editor) return null;
-
+const Editor = ({ editor }: EditorProps) => {
   return (
-    <form className="grid gap-2 min-w-0">
+    <>
       <Tools editor={editor} />
 
-      <EditorContent className="min-w-0 w-full max-w-full" editor={editor} />
-
-      <Buttons editor={editor} />
-    </form>
+      <Field name="content">
+        {({ field }: FieldProps) => (
+          <EditorContent
+            className="min-w-0 w-full max-w-full"
+            editor={editor}
+            {...field}
+          />
+        )}
+      </Field>
+    </>
   );
 };
 

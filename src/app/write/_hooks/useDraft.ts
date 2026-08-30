@@ -1,42 +1,52 @@
+import { FormInitialValues } from "@/app/write/_components/form/Form";
 import { toast } from "@/components/ui/toast";
-import { type Editor, type JSONContent } from "@tiptap/react";
+import { useFormikContext } from "formik";
 import { useCallback, useEffect } from "react";
 
-export interface DraftData {
-  content: JSONContent;
+export interface DraftData extends FormInitialValues {
   savedAt: string;
 }
 
 const DRAFT_STORAGE_KEY = "article-hub-write-draft";
 
-const useDraft = (editor: Editor | null) => {
-  const saveDraft = useCallback(() => {
-    if (!editor || typeof window === "undefined") return;
+const useDraft = () => {
+  const { values, setValues } = useFormikContext<FormInitialValues>();
 
-    const draft: DraftData = {
-      content: editor.getJSON(),
-      savedAt: new Date().toISOString(),
-    };
+  const saveDraft = useCallback(
+    (showToast = true) => {
+      if (typeof window === "undefined") return;
 
-    try {
-      window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+      const draft: DraftData = {
+        title: values.title,
+        slug: values.slug,
+        cover: values.cover,
+        content: values.content,
+        savedAt: new Date().toISOString(),
+      };
 
-      toast.add({
-        type: "success",
-        title: "Draft saved",
-        description: "Your article draft has been saved locally.",
-      });
-    } catch {
-      toast.add({
-        type: "error",
-        title: "Failed to save draft",
-        description: "Your article draft could not be saved locally.",
-      });
-    }
-  }, [editor]);
+      try {
+        window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+
+        if (showToast) {
+          toast.add({
+            type: "success",
+            title: "Draft saved",
+            description: "Your article draft has been saved locally.",
+          });
+        }
+      } catch {
+        toast.add({
+          type: "error",
+          title: "Failed to save draft",
+          description: "Your article draft could not be saved locally.",
+        });
+      }
+    },
+    [values.title, values.slug, values.cover, values.content],
+  );
 
   const loadDraft = useCallback(() => {
-    if (!editor || typeof window === "undefined") return false;
+    if (typeof window === "undefined") return false;
 
     const savedDraft = window.localStorage.getItem(DRAFT_STORAGE_KEY);
 
@@ -47,19 +57,24 @@ const useDraft = (editor: Editor | null) => {
 
       if (!parsedDraft.content) return false;
 
-      editor.commands.setContent(parsedDraft.content);
+      setValues({
+        title: parsedDraft.title,
+        slug: parsedDraft.slug,
+        cover: parsedDraft.cover,
+        content: parsedDraft.content,
+      });
       return true;
     } catch {
       window.localStorage.removeItem(DRAFT_STORAGE_KEY);
       return false;
     }
-  }, [editor]);
+  }, [setValues]);
 
   useEffect(() => {
-    if (!editor || typeof window === "undefined") return;
+    if (typeof window === "undefined") return;
 
     const handleBeforeUnload = () => {
-      saveDraft();
+      saveDraft(false);
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -67,7 +82,7 @@ const useDraft = (editor: Editor | null) => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [editor, saveDraft]);
+  }, [saveDraft]);
 
   return { saveDraft, loadDraft };
 };

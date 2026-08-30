@@ -1,4 +1,4 @@
-import Editor from "@/app/write/_components/editor/Editor";
+import Editor from "@/app/write/_components/form/Form";
 
 const page = () => {
   return (
