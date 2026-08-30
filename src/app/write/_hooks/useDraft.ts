@@ -1,27 +1,24 @@
 import { FormInitialValues } from "@/app/write/_components/form/Form";
 import { toast } from "@/components/ui/toast";
+import { Editor } from "@tiptap/react";
 import { useFormikContext } from "formik";
 import { useCallback, useEffect } from "react";
 
-export interface DraftData extends FormInitialValues {
-  savedAt: string;
-}
-
 const DRAFT_STORAGE_KEY = "article-hub-write-draft";
 
-const useDraft = () => {
-  const { values, setValues } = useFormikContext<FormInitialValues>();
+const useDraft = (editor: Editor | null) => {
+  const { values, setValues, resetForm } =
+    useFormikContext<FormInitialValues>();
 
   const saveDraft = useCallback(
     (showToast = true) => {
       if (typeof window === "undefined") return;
 
-      const draft: DraftData = {
+      const draft: FormInitialValues = {
         title: values.title,
         slug: values.slug,
-        cover: values.cover,
+        coverUrl: values.coverUrl,
         content: values.content,
-        savedAt: new Date().toISOString(),
       };
 
       try {
@@ -42,7 +39,7 @@ const useDraft = () => {
         });
       }
     },
-    [values.title, values.slug, values.cover, values.content],
+    [values.title, values.slug, values.content, values.coverUrl],
   );
 
   const loadDraft = useCallback(() => {
@@ -53,22 +50,42 @@ const useDraft = () => {
     if (!savedDraft) return false;
 
     try {
-      const parsedDraft = JSON.parse(savedDraft) as DraftData;
+      const parsedDraft = JSON.parse(savedDraft) as FormInitialValues;
 
       if (!parsedDraft.content) return false;
 
       setValues({
         title: parsedDraft.title,
         slug: parsedDraft.slug,
-        cover: parsedDraft.cover,
+        coverUrl: parsedDraft.coverUrl,
         content: parsedDraft.content,
       });
+
+      editor?.commands.setContent(parsedDraft.content);
+
       return true;
     } catch {
       window.localStorage.removeItem(DRAFT_STORAGE_KEY);
       return false;
     }
-  }, [setValues]);
+  }, [setValues, editor]);
+
+  const deleteDraft = useCallback(() => {
+    if (typeof window === "undefined") return false;
+
+    window.localStorage.removeItem(DRAFT_STORAGE_KEY);
+
+    try {
+      editor?.commands.clearContent();
+
+      resetForm();
+
+      return true;
+    } catch {
+      window.localStorage.removeItem(DRAFT_STORAGE_KEY);
+      return false;
+    }
+  }, [resetForm, editor]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -84,7 +101,7 @@ const useDraft = () => {
     };
   }, [saveDraft]);
 
-  return { saveDraft, loadDraft };
+  return { saveDraft, loadDraft, deleteDraft };
 };
 
 export default useDraft;

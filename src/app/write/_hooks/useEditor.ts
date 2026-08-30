@@ -64,13 +64,12 @@ const useTipTapEditor = () => {
       Subscript,
       Superscript,
     ],
-    content: "<p>Write your Article here!</p>",
     immediatelyRender: false,
     textDirection: "ltr",
     editorProps: {
       attributes: {
         class:
-          "container min-h-50 h-[70svh] overflow-y-auto scrollbar-thin scrollbar-track-sidebar-accent scrollbar-thumb-sidebar-primary scroll-fade leading-8 space-y-4 rounded-lg border border-input shadow bg-sidebar p-2 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm",
+          "container min-h-50 h-[70svh] overflow-y-auto scrollbar-thin scrollbar-track-sidebar-accent scrollbar-thumb-sidebar-primary scroll-fade leading-8 space-y-4 rounded-lg border border-input shadow bg-sidebar p-2 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm group-aria-invalid:border-destructive group-aria-invalid:ring-3 group-aria-invalid:ring-destructive/20",
       },
     },
   });

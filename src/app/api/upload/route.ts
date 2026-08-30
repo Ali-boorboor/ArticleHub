@@ -23,16 +23,16 @@ export async function POST(request: Request) {
 
     if (file.size > MAX_FILE_SIZE) {
       return Response.json(
-        { message: `image is too large, Max size is 4MB!` },
+        { message: `Image is too large, Max size is 4MB!` },
         { status: 400 },
       );
     }
 
     if (!ALLOWED_CONTENT_TYPES.includes(file.type)) {
-      return Response.json({ message: `invalid file type!` }, { status: 400 });
+      return Response.json({ message: `Invalid file type!` }, { status: 400 });
     }
 
-    const blob = await put(`article-covers/${file.name}`, file, {
+    const blob = await put(`article-images/${file.name}`, file, {
       access: "public",
       addRandomSuffix: true,
     });

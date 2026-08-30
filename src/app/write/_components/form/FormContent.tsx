@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 const FormContent = () => {
   const editor = useEditor();
-  const { loadDraft } = useDraft();
+  const { loadDraft } = useDraft(editor);
 
   useEffect(() => {
     if (!editor) return;
@@ -24,7 +24,7 @@ const FormContent = () => {
 
       <Editor editor={editor} />
 
-      <Buttons />
+      <Buttons editor={editor} />
     </FormikForm>
   );
 };

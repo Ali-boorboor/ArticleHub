@@ -1,12 +1,15 @@
 import ToolbarToggle from "@/app/write/_components/editor/ToolbarToggle";
 import useEditorStates from "@/app/write/_hooks/useEditorState";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/toast";
+import { cn } from "@/lib/utils";
 import { type Editor } from "@tiptap/react";
 import * as Icon from "lucide-react";
 
@@ -14,8 +17,81 @@ interface ToolsProps {
   editor: Editor;
 }
 
+const MAX_FILE_SIZE = 1 * 1024 * 1024;
+const ALLOWED_CONTENT_TYPES = [
+  "image/png",
+  "image/jpg",
+  "image/jpeg",
+  "image/webp",
+];
+
 const Tools = ({ editor }: ToolsProps) => {
   const editorState = useEditorStates(editor);
+
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.currentTarget.files?.[0];
+
+    if (!file || !(file instanceof File)) {
+      toast.add({
+        type: "error",
+        title: "Invalid image",
+      });
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      toast.add({
+        type: "error",
+        title: "Invalid image",
+        description: "Image is too large, Max size is 1MB!",
+      });
+      return;
+    }
+
+    if (!ALLOWED_CONTENT_TYPES.includes(file.type)) {
+      toast.add({
+        type: "error",
+        title: "Invalid image",
+        description:
+          "Invalid file type! Only PNG, JPG/JPEG, and WEBP are allowed.",
+      });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message);
+
+      editor.commands.setImage({
+        src: data.url,
+        alt: "Article Image",
+      });
+
+      toast.add({
+        type: "success",
+        title: "Image uploaded successfully",
+        description: "Image has been saved successfully.",
+      });
+    } catch {
+      toast.add({
+        type: "error",
+        title: "Image upload failed",
+        description:
+          "There was an error uploading the image. Please try again.",
+      });
+    }
+  };
 
   const textFormattingTools = [
     {
@@ -170,20 +246,26 @@ const Tools = ({ editor }: ToolsProps) => {
               </Button>
             }
           />
-          <DropdownMenuContent className="w-fit **:[[role='menuitem']]:cursor-pointer">
+          <DropdownMenuContent className="w-fit **:cursor-pointer">
             <DropdownMenuItem
-              onClick={() => {
-                editor.commands.setImage({
-                  src: "/test-img.jpg",
-                  alt: "Article Image",
-                });
-              }}
-              aria-label="Upload Image"
-            >
-              <Icon.ImageUp aria-hidden />
-              Upload Image
-            </DropdownMenuItem>
+              render={
+                <label
+                  className={cn(buttonVariants({ variant: "ghost" }))}
+                  htmlFor="image-uploader"
+                >
+                  <Icon.ImageIcon className="size-4" aria-hidden />
+                  Upload Image
+                </label>
+              }
+            />
           </DropdownMenuContent>
+          <Input
+            accept="image/png, image/jpg, image/jpeg, image/webp"
+            onChange={(event) => handleImageUpload(event)}
+            id="image-uploader"
+            type="file"
+            hidden
+          />
         </DropdownMenu>
       </div>
     </header>
