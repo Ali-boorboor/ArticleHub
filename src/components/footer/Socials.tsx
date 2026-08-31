@@ -1,5 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Globe } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -50,6 +51,17 @@ const Socials = () => {
           href="https://www.linkedin.com/in/ali-boorboor"
         >
           in
+        </Link>
+
+        <Link
+          className={cn(
+            buttonVariants({ variant: "outline", size: "icon-lg" }),
+          )}
+          href="https://portfolio-three-chi-l541bxyevl.vercel.app"
+          aria-label="site link"
+          target="_blank"
+        >
+          <Globe className="size-6" aria-hidden />
         </Link>
       </div>
     </section>
