@@ -18,7 +18,7 @@ const useDraft = (editor: Editor | null) => {
         title: values.title,
         slug: values.slug,
         coverUrl: values.coverUrl,
-        content: values.content,
+        content: editor?.getJSON(),
       };
 
       try {
@@ -39,7 +39,7 @@ const useDraft = (editor: Editor | null) => {
         });
       }
     },
-    [values.title, values.slug, values.content, values.coverUrl],
+    [values.title, values.slug, values.coverUrl, editor],
   );
 
   const loadDraft = useCallback(() => {
@@ -52,14 +52,14 @@ const useDraft = (editor: Editor | null) => {
     try {
       const parsedDraft = JSON.parse(savedDraft) as FormInitialValues;
 
-      if (!parsedDraft.content) return false;
-
       setValues({
         title: parsedDraft.title,
         slug: parsedDraft.slug,
         coverUrl: parsedDraft.coverUrl,
         content: parsedDraft.content,
       });
+
+      if (!parsedDraft.content) return false;
 
       editor?.commands.setContent(parsedDraft.content);
 
