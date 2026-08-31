@@ -1,13 +1,8 @@
+import { ALLOWED_CONTENT_TYPES, MAX_FILE_SIZE } from "@/constants/uploader";
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
-const MAX_FILE_SIZE = 4 * 1024 * 1024;
-const ALLOWED_CONTENT_TYPES = [
-  "image/png",
-  "image/jpg",
-  "image/jpeg",
-  "image/webp",
-];
+const BLOB_UPLOAD_PATH = "article-images";
 
 export async function POST(request: Request) {
   try {
@@ -23,7 +18,7 @@ export async function POST(request: Request) {
 
     if (file.size > MAX_FILE_SIZE) {
       return Response.json(
-        { message: `Image is too large, Max size is 4MB!` },
+        { message: `Image is too large, Max size is 1MB!` },
         { status: 400 },
       );
     }
@@ -32,7 +27,7 @@ export async function POST(request: Request) {
       return Response.json({ message: `Invalid file type!` }, { status: 400 });
     }
 
-    const blob = await put(`article-images/${file.name}`, file, {
+    const blob = await put(`${BLOB_UPLOAD_PATH}/${file.name}`, file, {
       access: "public",
       addRandomSuffix: true,
     });
@@ -43,7 +38,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { error: "Upload failed. Please try again." },
-      { status: 400 },
+      { status: 500 },
     );
   }
 }

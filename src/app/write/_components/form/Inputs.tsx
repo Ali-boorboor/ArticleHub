@@ -1,100 +1,16 @@
 import { FormInitialValues } from "@/app/write/_components/form/Form";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/ui/input-group";
-import { toast } from "@/components/ui/toast";
-import { ErrorMessage, Field, FieldProps, useFormikContext } from "formik";
-import {
-  Image as ImageIcon,
-  Link,
-  Link2,
-  Trash,
-  TypeOutline,
-} from "lucide-react";
-import { slugify } from "transliteration";
-
-const MAX_FILE_SIZE = 1 * 1024 * 1024;
-const ALLOWED_CONTENT_TYPES = [
-  "image/png",
-  "image/jpg",
-  "image/jpeg",
-  "image/webp",
-];
+import useInputsUtils from "@/app/write/_hooks/useInputsUtils";
+import useUploader from "@/app/write/_hooks/useUploader";
+import { TITLE_MAX_LENGTH } from "@/app/write/_validators/form.validator";
+import * as inputGroup from "@/components/ui/input-group";
+import { ALLOWED_CONTENT_TYPES } from "@/constants/uploader";
+import { ErrorMessage, Field, FieldProps } from "formik";
+import * as icon from "lucide-react";
 
 const Inputs = () => {
-  const { values, touched, errors, setFieldValue } =
-    useFormikContext<FormInitialValues>();
-
-  const handleCoverUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const file = event.currentTarget.files?.[0];
-
-    if (!file || !(file instanceof File)) {
-      toast.add({
-        type: "error",
-        title: "Invalid cover image",
-      });
-      return;
-    }
-
-    if (file.size > MAX_FILE_SIZE) {
-      toast.add({
-        type: "error",
-        title: "Invalid cover image",
-        description: "Image is too large, Max size is 1MB!",
-      });
-      return;
-    }
-
-    if (!ALLOWED_CONTENT_TYPES.includes(file.type)) {
-      toast.add({
-        type: "error",
-        title: "Invalid cover image",
-        description:
-          "Invalid file type! Only PNG, JPG/JPEG, and WEBP are allowed.",
-      });
-      return;
-    }
-
-    setFieldValue("cover", file);
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) throw new Error(data.message);
-
-      setFieldValue("coverUrl", data.url);
-
-      toast.add({
-        type: "success",
-        title: "Cover uploaded successfully",
-        description: "Cover has been saved successfully.",
-      });
-    } catch {
-      toast.add({
-        type: "error",
-        title: "Cover upload failed",
-        description:
-          "There was an error uploading the cover image. Please try again.",
-      });
-    }
-  };
-
-  const createSlug = (title: string) => {
-    return slugify(title, { lowercase: true, separator: "-", trim: true });
-  };
+  const { handleImageUpload } = useUploader();
+  const { values, handleTitleChange, isAriaInvalid, handleCoverRemoval } =
+    useInputsUtils();
 
   return (
     <div className="flex items-end gap-2 flex-col sm:flex-row">
@@ -107,23 +23,19 @@ const Inputs = () => {
 
         <Field name="title">
           {({ form, field }: FieldProps<string, FormInitialValues>) => (
-            <InputGroup className="min-w-40 bg-sidebar!">
-              <InputGroupAddon>
-                <TypeOutline className="size-4" aria-hidden />
-              </InputGroupAddon>
-              <InputGroupInput
+            <inputGroup.InputGroup className="min-w-40 bg-sidebar!">
+              <inputGroup.InputGroupAddon>
+                <icon.TypeOutline className="size-4" aria-hidden />
+              </inputGroup.InputGroupAddon>
+              <inputGroup.InputGroupInput
                 {...field}
-                aria-invalid={Boolean(errors.title && touched.title)}
+                onChange={(event) => handleTitleChange(form, event)}
+                aria-invalid={isAriaInvalid("title")}
+                maxLength={TITLE_MAX_LENGTH}
                 placeholder="Article Title"
                 className="min-w-40"
-                onChange={(event) => {
-                  const title = event.target.value;
-
-                  form.setFieldValue("title", title);
-                  form.setFieldValue("slug", createSlug(title));
-                }}
               />
-            </InputGroup>
+            </inputGroup.InputGroup>
           )}
         </Field>
       </div>
@@ -137,18 +49,18 @@ const Inputs = () => {
 
         <Field name="slug">
           {({ field }: FieldProps<string, FormInitialValues>) => (
-            <InputGroup className="min-w-40 bg-sidebar!">
-              <InputGroupAddon>
-                <Link2 className="size-4" aria-hidden />
-              </InputGroupAddon>
-              <InputGroupInput
-                aria-invalid={Boolean(errors.slug && touched.slug)}
+            <inputGroup.InputGroup className="min-w-40 bg-sidebar!">
+              <inputGroup.InputGroupAddon>
+                <icon.Link2 className="size-4" aria-hidden />
+              </inputGroup.InputGroupAddon>
+              <inputGroup.InputGroupInput
+                aria-invalid={isAriaInvalid("slug")}
                 placeholder="Article Slug"
                 className="min-w-40"
                 {...field}
                 readOnly
               />
-            </InputGroup>
+            </inputGroup.InputGroup>
           )}
         </Field>
       </div>
@@ -161,19 +73,19 @@ const Inputs = () => {
             name="coverUrl"
           />
 
-          <InputGroup className="min-w-40 bg-sidebar!">
-            <InputGroupAddon>
-              <ImageIcon className="size-4" aria-hidden />
-            </InputGroupAddon>
-            <InputGroupInput
-              aria-invalid={Boolean(errors.coverUrl && touched.coverUrl)}
-              accept="image/png, image/jpg, image/jpeg, image/webp"
-              onChange={(event) => handleCoverUpload(event)}
+          <inputGroup.InputGroup className="min-w-40 bg-sidebar!">
+            <inputGroup.InputGroupAddon>
+              <icon.ImageIcon className="size-4" aria-hidden />
+            </inputGroup.InputGroupAddon>
+            <inputGroup.InputGroupInput
+              aria-invalid={isAriaInvalid("coverUrl")}
+              accept={ALLOWED_CONTENT_TYPES.join(",")}
+              onChange={handleImageUpload}
               title="Article Cover"
               className="min-w-40"
               type="file"
             />
-          </InputGroup>
+          </inputGroup.InputGroup>
         </div>
       ) : (
         <div className="grid gap-1 w-full">
@@ -185,26 +97,29 @@ const Inputs = () => {
 
           <Field name="coverUrl">
             {({ field }: FieldProps<string, FormInitialValues>) => (
-              <InputGroup className="min-w-40 bg-sidebar!">
-                <InputGroupAddon>
-                  <Link className="size-4" aria-hidden />
-                </InputGroupAddon>
-                <InputGroupInput
-                  aria-invalid={Boolean(errors.coverUrl && touched.coverUrl)}
+              <inputGroup.InputGroup className="min-w-40 bg-sidebar!">
+                <inputGroup.InputGroupAddon>
+                  <icon.Link className="size-4" aria-hidden />
+                </inputGroup.InputGroupAddon>
+                <inputGroup.InputGroupInput
+                  aria-invalid={isAriaInvalid("coverUrl")}
                   title="Article Cover URL"
                   className="min-w-40"
                   {...field}
                 />
-                <InputGroupAddon align="inline-end" title="Remove Cover">
-                  <InputGroupButton
-                    onClick={() => setFieldValue("coverUrl", undefined)}
+                <inputGroup.InputGroupAddon
+                  align="inline-end"
+                  title="Remove Cover"
+                >
+                  <inputGroup.InputGroupButton
+                    onClick={handleCoverRemoval}
                     variant="destructive"
                     size="icon-sm"
                   >
-                    <Trash />
-                  </InputGroupButton>
-                </InputGroupAddon>
-              </InputGroup>
+                    <icon.Trash aria-hidden />
+                  </inputGroup.InputGroupButton>
+                </inputGroup.InputGroupAddon>
+              </inputGroup.InputGroup>
             )}
           </Field>
         </div>

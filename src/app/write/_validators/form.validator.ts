@@ -4,6 +4,8 @@ import * as Yup from "yup";
 const TITLE_REGEX = /^[\p{L}\p{N}\p{P}\p{Zs}]+$/u;
 const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+export const TITLE_MAX_LENGTH = 60;
+
 const hasTextContent = (node?: JSONContent): boolean => {
   if (!node) return false;
 
@@ -17,7 +19,7 @@ const hasTextContent = (node?: JSONContent): boolean => {
 const formValidator = Yup.object().shape({
   title: Yup.string()
     .trim()
-    .max(60, "Title can contain at most 60 characters")
+    .max(TITLE_MAX_LENGTH, "Title can contain at most 60 characters")
     .required("Title is required")
     .matches(TITLE_REGEX, "Title contains invalid characters"),
 

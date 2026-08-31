@@ -1,7 +1,28 @@
 import { type Editor, useEditorState } from "@tiptap/react";
 
+export interface EditorState {
+  isBold: boolean;
+  isItalic: boolean;
+  isUnderline: boolean;
+  isStrike: boolean;
+  isSubscript: boolean;
+  isSuperscript: boolean;
+  isLink: boolean;
+  isAlignLeft: boolean;
+  isAlignCenter: boolean;
+  isAlignRight: boolean;
+  isDirectionRight: boolean;
+  isDirectionLeft: boolean;
+  isH3: boolean;
+  isH4: boolean;
+  isH5: boolean;
+  isBulletList: boolean;
+  isOrderedList: boolean;
+  isCodeBlock: boolean;
+}
+
 const useEditorStates = (editor: Editor) => {
-  const editorState = useEditorState({
+  const editorState: EditorState = useEditorState({
     editor,
     selector: ({ editor }) => ({
       isBold: editor?.isActive("bold") ?? false,
