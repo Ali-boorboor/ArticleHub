@@ -3,7 +3,7 @@
 import Buttons from "@/components/header/Buttons";
 import Menu from "@/components/header/Menu";
 import SearchInput from "@/components/header/SearchInput";
-import ThemeTrigger from "@/components/header/ThemeTrigger";
+import ThemeTrigger from "@/components/ThemeTrigger";
 import { Button } from "@/components/ui/button";
 import * as sheet from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";

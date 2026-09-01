@@ -10,7 +10,7 @@ const Buttons = ({ buttonsClassname }: ButtonsProps) => {
   return (
     <div className="flex gap-2">
       <Link
-        href="/signin"
+        href="/sign-in"
         className={cn(
           buttonVariants({
             variant: "outline",
@@ -23,7 +23,7 @@ const Buttons = ({ buttonsClassname }: ButtonsProps) => {
       </Link>
 
       <Link
-        href="/signup"
+        href="/sign-up"
         className={cn(
           buttonVariants({
             size: "lg",

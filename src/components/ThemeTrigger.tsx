@@ -21,19 +21,17 @@ const ThemeTrigger = ({ buttonsClassName }: ThemeTriggerProps) => {
   };
 
   return (
-    <div className="flex gap-2">
-      <Button
-        className={cn(buttonsClassName)}
-        onClick={triggerThemeHandler}
-        variant="outline"
-        size="icon-lg"
-        type="button"
-      >
-        <Sun className="absolute size-4 scale-0 dark:scale-100" />
-        <Moon className="size-4 scale-100 dark:scale-0" />
-        <span className="sr-only">Toggle theme</span>
-      </Button>
-    </div>
+    <Button
+      className={cn(buttonsClassName)}
+      onClick={triggerThemeHandler}
+      variant="outline"
+      size="icon-lg"
+      type="button"
+    >
+      <Sun className="absolute size-4 scale-0 dark:scale-100" />
+      <Moon className="size-4 scale-100 dark:scale-0" />
+      <span className="sr-only">Toggle theme</span>
+    </Button>
   );
 };
 

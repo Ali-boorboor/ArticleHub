@@ -2,7 +2,7 @@ import Buttons from "@/components/header/Buttons";
 import Menu from "@/components/header/Menu";
 import MobileMenu from "@/components/header/MobileMenu";
 import SearchInput from "@/components/header/SearchInput";
-import ThemeTrigger from "@/components/header/ThemeTrigger";
+import ThemeTrigger from "@/components/ThemeTrigger";
 import Image from "next/image";
 import Link from "next/link";
 
