@@ -33,6 +33,18 @@ const Buttons = ({ buttonsClassname }: ButtonsProps) => {
       >
         Sign up
       </Link>
+
+      <Link
+        href="/dashboard"
+        className={cn(
+          buttonVariants({
+            size: "lg",
+          }),
+          buttonsClassname,
+        )}
+      >
+        Dashboard
+      </Link>
     </div>
   );
 };

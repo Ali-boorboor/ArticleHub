@@ -35,15 +35,15 @@ const SearchInput = () => {
   }, []);
 
   return (
-    <inputGroup.InputGroup className="max-w-sm min-w-40">
+    <inputGroup.InputGroup className="sm:max-w-sm min-w-40 w-full">
       <inputGroup.InputGroupInput
         placeholder="Search Articles..."
         ref={searchInput}
       />
-      <inputGroup.InputGroupAddon>
+      <inputGroup.InputGroupAddon aria-hidden>
         <SearchIcon className="text-muted-foreground" />
       </inputGroup.InputGroupAddon>
-      <inputGroup.InputGroupAddon align="inline-end">
+      <inputGroup.InputGroupAddon align="inline-end" className="hidden sm:flex">
         <Kbd>/</Kbd>
       </inputGroup.InputGroupAddon>
     </inputGroup.InputGroup>

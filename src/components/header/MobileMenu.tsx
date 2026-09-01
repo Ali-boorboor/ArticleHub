@@ -36,7 +36,7 @@ const MobileMenu = () => {
         />
 
         <sheet.SheetFooter>
-          <ThemeTrigger buttonsClassName="flex-1" />
+          <ThemeTrigger />
         </sheet.SheetFooter>
       </sheet.SheetContent>
     </sheet.Sheet>
