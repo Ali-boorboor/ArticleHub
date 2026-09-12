@@ -1,7 +1,7 @@
 "use client";
 
+import formValidator from "@/app/(Auth)/_validators/form.validator";
 import Form from "@/app/(Auth)/sign-in/_components/Form";
-import formValidator from "@/app/(Auth)/validators/form.validator";
 import ThemeTrigger from "@/components/ThemeTrigger";
 import { Button, buttonVariants } from "@/components/ui/button";
 import * as card from "@/components/ui/card";

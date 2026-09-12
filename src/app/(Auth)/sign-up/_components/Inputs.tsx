@@ -1,5 +1,5 @@
+import { USERNAME_MAX_LENGTH } from "@/app/(Auth)/_validators/form.validator";
 import useInputsUtils from "@/app/(Auth)/sign-up/_hooks/useInputsUtils";
-import { USERNAME_MAX_LENGTH } from "@/app/(Auth)/validators/form.validator";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import * as inputGroup from "@/components/ui/input-group";
 import { ALLOWED_CONTENT_TYPES } from "@/constants/uploader";
