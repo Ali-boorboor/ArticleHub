@@ -6,10 +6,11 @@ import ThemeTrigger from "@/components/ThemeTrigger";
 import { Button, buttonVariants } from "@/components/ui/button";
 import * as card from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
-import usePostRequest from "@/hooks/useFetcher";
+import { usePostRequest } from "@/hooks/useFetcher";
 import { cn } from "@/lib/utils";
 import { Formik, FormikHelpers } from "formik";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const INITIAL_VALUES = {
   email: "",
@@ -24,6 +25,8 @@ const SigninPage = () => {
     successMessage: "Logged in Successfully",
   });
 
+  const router = useRouter();
+
   const submitHandler = async (
     values: typeof INITIAL_VALUES,
     { resetForm }: FormikHelpers<typeof INITIAL_VALUES>,
@@ -33,7 +36,11 @@ const SigninPage = () => {
     mutate(
       { email, password },
       {
-        onSuccess: () => resetForm(),
+        onSuccess: () => {
+          resetForm();
+
+          router.replace("/");
+        },
       },
     );
   };

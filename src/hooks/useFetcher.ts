@@ -1,12 +1,17 @@
 import { toast } from "@/components/ui/toast";
 import fetcher from "@/utils/fetcher";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { type QueryKey, useMutation, useQuery } from "@tanstack/react-query";
 
-interface UsePostRequestProps {
+interface BaseProps {
   url: string;
   successMessage?: string;
   failMessage?: string;
+}
+
+interface GetRequestProps extends Pick<BaseProps, "url" | "failMessage"> {
+  queryKey: QueryKey;
+  cacheTime?: number;
+  retryFetchOnError?: boolean;
 }
 
 class RequestError extends Error {
@@ -35,13 +40,11 @@ const postRequest = async (url: string, body: object) => {
   return response;
 };
 
-const usePostRequest = ({
+export const usePostRequest = ({
   url,
   successMessage,
   failMessage,
-}: UsePostRequestProps) => {
-  const router = useRouter();
-
+}: BaseProps) => {
   return useMutation({
     mutationFn: async (body: object) => {
       const requestPromise = postRequest(url, body);
@@ -72,17 +75,38 @@ const usePostRequest = ({
             }
           }
 
-          return failMessage ?? "Request failed !";
+          return failMessage ?? "Internal server error !";
         },
       });
-    },
-
-    onSuccess: (response) => {
-      if ([201, 200].includes(response.status)) {
-        router.replace("/");
-      }
     },
   });
 };
 
-export default usePostRequest;
+const getRequest = async <T>(url: string) => {
+  const { response, data } = await fetcher<T>({ method: "GET", url });
+
+  if (!response.ok) {
+    throw new RequestError(response.status);
+  }
+
+  return { response, data };
+};
+
+export const useGetRequest = <T = unknown>({
+  url,
+  queryKey,
+  cacheTime = 0,
+  retryFetchOnError = false,
+}: GetRequestProps) => {
+  return useQuery<{ response: Response; data: T }, RequestError>({
+    queryKey,
+
+    queryFn: () => getRequest<T>(url),
+
+    retry: retryFetchOnError,
+
+    staleTime: cacheTime,
+
+    gcTime: cacheTime,
+  });
+};

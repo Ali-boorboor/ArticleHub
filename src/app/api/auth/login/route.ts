@@ -59,7 +59,7 @@ export const POST = async (request: Request) => {
       path: "/",
     });
 
-    return Response.json({ message: "user logged in successfully" });
+    return NextResponse.json({ message: "user logged in successfully" });
   } catch (error) {
     console.error("# Error in login route =>", error);
 
