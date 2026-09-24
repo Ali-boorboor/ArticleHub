@@ -5,11 +5,21 @@ import formValidator from "@/app/(Auth)/validators/form.validator";
 import ThemeTrigger from "@/components/ThemeTrigger";
 import { Button, buttonVariants } from "@/components/ui/button";
 import * as card from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
+import usePostRequest from "@/hooks/useFetcher";
 import { cn } from "@/lib/utils";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import Link from "next/link";
 
-export const INITIAL_VALUES = {
+type SignupFormValues = {
+  username: string;
+  cover: File | undefined;
+  email: string;
+  password: string;
+  shouldShowPassword: boolean;
+};
+
+export const INITIAL_VALUES: SignupFormValues = {
   username: "",
   cover: undefined,
   email: "",
@@ -17,7 +27,34 @@ export const INITIAL_VALUES = {
   shouldShowPassword: false,
 };
 
-const page = () => {
+const SignupPage = () => {
+  const { mutate, isPending } = usePostRequest({
+    url: "/auth/signup",
+    failMessage: "Signup Failed !",
+    successMessage: "Signed up Successfully",
+  });
+
+  const submitHandler = async (
+    values: typeof INITIAL_VALUES,
+    { resetForm }: FormikHelpers<typeof INITIAL_VALUES>,
+  ) => {
+    const { cover, username, email, password } = values;
+
+    const formData = new FormData();
+
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
+
+    if (cover instanceof File) {
+      formData.append("cover", cover);
+    }
+
+    mutate(formData, {
+      onSuccess: () => resetForm(),
+    });
+  };
+
   return (
     <card.Card className="w-full max-w-md">
       <card.CardHeader>
@@ -33,15 +70,21 @@ const page = () => {
       </card.CardHeader>
       <card.CardContent>
         <Formik
-          onSubmit={(values) => console.log(values)}
           validationSchema={formValidator}
           initialValues={INITIAL_VALUES}
+          onSubmit={submitHandler}
         >
           <Form />
         </Formik>
       </card.CardContent>
       <card.CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full" form="sign-up-form">
+        <Button
+          type="submit"
+          className="w-full"
+          form="sign-up-form"
+          disabled={isPending}
+        >
+          {isPending && <Spinner data-icon="inline-start" />}
           Sign up
         </Button>
 
@@ -56,4 +99,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SignupPage;

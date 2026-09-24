@@ -1,3 +1,4 @@
+import Providers from "@/app/providers";
 import ThemeProvider from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
@@ -33,17 +34,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
     >
       <body>
-        <div className="grid grid-rows-[auto_1fr_auto] gap-8 min-h-svh">
-          <ThemeProvider
-            disableTransitionOnChange
-            defaultTheme="system"
-            attribute="class"
-            enableSystem
-          >
-            {children}
-            <Toaster timeout={3000} />
-          </ThemeProvider>
-        </div>
+        <Providers>
+          <div className="grid grid-rows-[auto_1fr_auto] gap-8 min-h-svh">
+            <ThemeProvider
+              disableTransitionOnChange
+              defaultTheme="system"
+              attribute="class"
+              enableSystem
+            >
+              {children}
+              <Toaster timeout={3000} />
+            </ThemeProvider>
+          </div>
+        </Providers>
       </body>
     </html>
   );
