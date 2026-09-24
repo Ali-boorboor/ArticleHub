@@ -59,6 +59,10 @@ const usePostRequest = ({
               return "Unauthorized !";
             }
 
+            if (error.status === 404) {
+              return "Not Found !";
+            }
+
             if (error.status === 409) {
               return "This Datas Already Exist !";
             }

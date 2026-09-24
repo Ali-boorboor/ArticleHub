@@ -9,7 +9,7 @@ export const USERNAME_MIN_LENGTH = 3;
 export const USERNAME_MAX_LENGTH = 20;
 export const PASSWORD_MIN_LENGTH = 8;
 
-const formValidator = Yup.object().shape({
+const signupValidator = Yup.object().shape({
   username: Yup.string()
     .trim()
     .min(
@@ -45,4 +45,25 @@ const formValidator = Yup.object().shape({
     ),
 });
 
-export default formValidator;
+const signinValidator = Yup.object().shape({
+  email: Yup.string()
+    .trim()
+    .email("Invalid email address")
+    .required("Email is required")
+    .matches(EMAIL_REGEX, "Email is invalid"),
+
+  password: Yup.string()
+    .trim()
+    .min(
+      PASSWORD_MIN_LENGTH,
+      `Password must be at least ${PASSWORD_MIN_LENGTH} characters long`,
+    )
+    .required("Password is required")
+    .matches(
+      PASSWORD_REGEX,
+      "Password contains at least one uppercase letter, one lowercase letter, one number, and one special character",
+    ),
+});
+
+export { signinValidator, signupValidator };
+

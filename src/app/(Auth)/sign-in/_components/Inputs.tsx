@@ -1,4 +1,3 @@
-import { USERNAME_MAX_LENGTH } from "@/app/(Auth)/_validators/form.validator";
 import useInputsUtils from "@/app/(Auth)/sign-in/_hooks/useInputsUtils";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import * as inputGroup from "@/components/ui/input-group";
@@ -11,23 +10,22 @@ const Inputs = () => {
 
   return (
     <>
-      <FormikField name="username">
+      <FormikField name="email">
         {({ field }: FieldProps) => (
           <Field>
-            <FieldLabel htmlFor="username">Username</FieldLabel>
+            <FieldLabel htmlFor="email">Email</FieldLabel>
             <inputGroup.InputGroup>
               <inputGroup.InputGroupInput
-                aria-invalid={isAriaInvalid("username")}
-                maxLength={USERNAME_MAX_LENGTH}
-                placeholder="Enter username"
-                id="username"
+                aria-invalid={isAriaInvalid("email")}
+                placeholder="Enter email"
+                id="email"
                 {...field}
               />
               <inputGroup.InputGroupAddon align="inline-end" aria-hidden>
                 <User />
               </inputGroup.InputGroupAddon>
             </inputGroup.InputGroup>
-            <ErrorMessage component={FieldError} name="username" />
+            <ErrorMessage component={FieldError} name="email" />
           </Field>
         )}
       </FormikField>

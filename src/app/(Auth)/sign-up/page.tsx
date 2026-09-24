@@ -1,6 +1,6 @@
 "use client";
 
-import formValidator from "@/app/(Auth)/_validators/form.validator";
+import { signupValidator } from "@/app/(Auth)/_validators/form.validator";
 import Form from "@/app/(Auth)/sign-up/_components/Form";
 import ThemeTrigger from "@/components/ThemeTrigger";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -70,7 +70,7 @@ const SignupPage = () => {
       </card.CardHeader>
       <card.CardContent>
         <Formik
-          validationSchema={formValidator}
+          validationSchema={signupValidator}
           initialValues={INITIAL_VALUES}
           onSubmit={submitHandler}
         >

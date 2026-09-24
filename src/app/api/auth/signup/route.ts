@@ -1,4 +1,4 @@
-import formValidator from "@/app/(Auth)/validators/form.validator";
+import { signupValidator } from "@/app/(Auth)/_validators/form.validator";
 import connectToDB from "@/configs/db";
 import { ALLOWED_CONTENT_TYPES, MAX_FILE_SIZE } from "@/constants/uploader";
 import UserModel from "@/models/User";
@@ -32,7 +32,7 @@ export const POST = async (request: Request) => {
     };
 
     const errors = await validateRequestBody({
-      schema: formValidator,
+      schema: signupValidator,
       requestBody,
     });
 
