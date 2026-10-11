@@ -1,7 +1,9 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "cn";
 import { Flame, MoveRight, Pencil } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const IMAGE_SRC = "/pages-image/home-intro-img.png";
 
@@ -26,13 +28,16 @@ const IntroSection = () => {
         </p>
 
         <div className="flex gap-4 flex-wrap *:flex-1 lg:*:flex-none">
-          <Button size="lg">
+          <Link className={cn(buttonVariants({ size: "lg" }))} href="/articles">
             Explore Articles <MoveRight />
-          </Button>
+          </Link>
 
-          <Button variant="outline" size="lg">
+          <Link
+            className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+            href="/write"
+          >
             Start Writing <Pencil />
-          </Button>
+          </Link>
         </div>
       </hgroup>
 

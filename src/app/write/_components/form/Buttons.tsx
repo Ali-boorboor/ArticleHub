@@ -1,13 +1,15 @@
 import useDraft from "@/app/write/_hooks/useDraft";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { type Editor } from "@tiptap/react";
 import { Save, Send, Trash } from "lucide-react";
 
 interface ButtonsProps {
   editor: Editor;
+  isPending: boolean;
 }
 
-const Buttons = ({ editor }: ButtonsProps) => {
+const Buttons = ({ editor, isPending }: ButtonsProps) => {
   const { saveDraft, deleteDraft } = useDraft(editor);
 
   return (
@@ -34,8 +36,17 @@ const Buttons = ({ editor }: ButtonsProps) => {
         Save Draft
       </Button>
 
-      <Button className="flex-1 max-w-96" type="submit" size="lg">
-        <Send aria-hidden />
+      <Button
+        className="flex-1 max-w-96"
+        hidden={isPending}
+        type="submit"
+        size="lg"
+      >
+        {isPending ? (
+          <Spinner data-icon="inline-start" />
+        ) : (
+          <Send aria-hidden />
+        )}
         Publish
       </Button>
     </footer>

@@ -17,7 +17,7 @@ const LatestArticlesSection = () => {
 
         <Link
           className={cn(buttonVariants({ variant: "link", size: "lg" }))}
-          href="/"
+          href="/articles"
         >
           View all articles <MoveRight />
         </Link>

@@ -6,7 +6,11 @@ import useEditor from "@/app/write/_hooks/useEditor";
 import { Form as FormikForm } from "formik";
 import { useEffect } from "react";
 
-const FormContent = () => {
+interface FormContentProps {
+  isPending: boolean;
+}
+
+const FormContent = ({ isPending }: FormContentProps) => {
   const editor = useEditor();
   const { loadDraft } = useDraft(editor);
 
@@ -24,7 +28,7 @@ const FormContent = () => {
 
       <Editor editor={editor} />
 
-      <Buttons editor={editor} />
+      <Buttons editor={editor} isPending={isPending} />
     </FormikForm>
   );
 };

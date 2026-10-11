@@ -43,4 +43,5 @@ const formValidator = Yup.object().shape({
   ),
 });
 
-export default formValidator;
+export { formValidator };
+

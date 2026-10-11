@@ -1,9 +1,10 @@
 "use client";
 
 import FormContent from "@/app/write/_components/form/FormContent";
-import formValidator from "@/app/write/_validators/form.validator";
+import { formValidator } from "@/app/write/_validators/form.validator";
+import { usePostRequest } from "@/hooks/useFetcher";
 import { type JSONContent } from "@tiptap/react";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 
 export interface FormInitialValues {
   title: string;
@@ -22,15 +23,40 @@ const initialValues: FormInitialValues = {
 };
 
 const Form = () => {
+  const { mutate, isPending } = usePostRequest({
+    url: "/article",
+    failMessage: "Failed In Adding Article !",
+    successMessage: "Article Added Successfully",
+  });
+
+  const submitHandler = async (
+    values: FormInitialValues,
+    { resetForm }: FormikHelpers<FormInitialValues>,
+  ) => {
+    const { title, slug, content, coverUrl } = values;
+
+    mutate(
+      {
+        title,
+        slug,
+        coverUrl,
+        content,
+      },
+      {
+        onSuccess: () => {
+          resetForm();
+        },
+      },
+    );
+  };
+
   return (
     <Formik
       validationSchema={formValidator}
       initialValues={initialValues}
-      onSubmit={(values) => {
-        console.log(values);
-      }}
+      onSubmit={submitHandler}
     >
-      <FormContent />
+      <FormContent isPending={isPending} />
     </Formik>
   );
 };

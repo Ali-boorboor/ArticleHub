@@ -32,7 +32,7 @@ const AdCard = () => {
           </div>
         </div>
 
-        <Link className={cn(buttonVariants({ size: "lg" }))} href="/">
+        <Link className={cn(buttonVariants({ size: "lg" }))} href="/write">
           Get started for free <MoveRight />
         </Link>
       </CardContent>
